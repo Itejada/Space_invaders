@@ -9,6 +9,7 @@ public class World {
     Space space;
     Ship ship;
     AlienArmy alienArmy;
+    int LIVES_PLAYER=3;
 
     int WORLD_WIDTH, WORLD_HEIGHT;
 
@@ -17,7 +18,7 @@ public class World {
         this.WORLD_HEIGHT = WORLD_HEIGHT;
 
         space = new Space();
-        ship = new Ship(WORLD_WIDTH/2);
+        ship = new Ship(WORLD_WIDTH/2,LIVES_PLAYER);
         alienArmy = new AlienArmy(WORLD_WIDTH, WORLD_HEIGHT);
     }
 
@@ -43,6 +44,7 @@ public class World {
     private void checkCollisions(Assets assets) {
         checkNaveInWorld();
         checkShootsInWorld();
+        checkMegaShootsInWorld();
         checkShootsToAlien(assets);
         checkShootsToShip();
     }
@@ -75,12 +77,45 @@ public class World {
                 }
             }
         }
+        for(MegaShoot megaShoot: ship.weapon.megaShoots){
+            Rectangle shootRectangle = new Rectangle(megaShoot.position.x, megaShoot.position.y, megaShoot.frame.getRegionWidth(), megaShoot.frame.getRegionHeight());
+            for(Alien alien: alienArmy.aliens){
+                if(alien.isAlive()) {
+                    Rectangle alienRectangle = new Rectangle(alien.position.x, alien.position.y, alien.frame.getRegionWidth(), alien.frame.getRegionHeight());
+
+                    if (Intersector.overlaps(shootRectangle, alienRectangle)) {
+                        alien.kill();
+                        megaShoot.remove();
+                        assets.aliendieSound.play();
+                    }
+                }
+            }
+        }
     }
 
     private void checkShootsInWorld() {
         for(Shoot shoot: ship.weapon.shoots){
             if(shoot.position.y > WORLD_HEIGHT){
                 shoot.remove();
+            }
+        }
+        //borra los disparos que se hayan salido de la pantalla
+        for(MegaShoot megaShoot: ship.weapon.megaShoots){
+            if(megaShoot.position.y > WORLD_HEIGHT){
+                megaShoot.remove();
+            }
+        }
+
+        for(AlienShoot shoot: alienArmy.shoots){
+            if(shoot.position.y < 0){
+                shoot.remove();
+            }
+        }
+    }
+    private void checkMegaShootsInWorld() {
+        for(MegaShoot megaShoot: ship.weapon.megaShoots){
+            if(megaShoot.position.y > WORLD_HEIGHT){
+                megaShoot.remove();
             }
         }
 

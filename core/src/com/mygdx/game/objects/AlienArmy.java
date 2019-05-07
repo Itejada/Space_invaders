@@ -81,30 +81,43 @@ public class AlienArmy {
             x += speed;
 
             if(x > maxX){
+                for (Alien alien : aliens) {
+                alien.position.y -= 10;
+            }
                 x = maxX;
                 speed *= -1;
+
+
             } else if(x < 0){
+                for (Alien alien : aliens) {
+                alien.position.y -= 10;
+            }
                 x = 0;
                 speed *= -1;
+
             }
 
             for (Alien alien : aliens) {
                 alien.position.x += speed;
+
             }
         }
     }
 
     void shoot(Assets assets){
-        if(shootTimer.check()){
-            int alienNum = random.nextInt(aliens.size);
+        if(shootTimer.check()) {
+            if (aliens.size > 0) {
+                int alienNum = random.nextInt(aliens.size);
 
-            Alien alien = aliens.get(alienNum);
+                Alien alien = aliens.get(alienNum);
 
-            shoots.add(new AlienShoot(new Vector2(alien.position)));
+                shoots.add(new AlienShoot(new Vector2(alien.position)));
 
-            assets.alienSound.play();
+                assets.alienSound.play();
 
-            shootTimer.set(random.nextFloat()%5+1);
+                shootTimer.set(random.nextFloat() % 5 + 1);
+
+            }
         }
     }
 

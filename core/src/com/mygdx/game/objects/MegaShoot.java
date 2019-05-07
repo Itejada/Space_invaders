@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Assets;
 
-public class Shoot {
+public class MegaShoot {
     enum State {
         SHOOTING, TO_REMOVE
     }
@@ -14,18 +14,20 @@ public class Shoot {
 
     float stateTime;
     State state;
-    float speed = 5;
+    float speed = 1;
+    float potencia;
 
     TextureRegion frame;
 
-    Shoot(float position){
+    MegaShoot(float position, float potencia){
         //Aparicion de la bala
-        this.position = new Vector2(position-1, 18);
+        this.position = new Vector2(position, 18);
+        this.potencia=potencia;
         state = State.SHOOTING;
     }
 
     void render(SpriteBatch batch){
-        batch.draw(frame, position.x , position.y);
+        batch.draw(frame, position.x-(potencia/2), position.y, potencia, potencia*2);
     }
 
     public void update(float delta, Assets assets) {

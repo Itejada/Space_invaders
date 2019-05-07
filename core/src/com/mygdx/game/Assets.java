@@ -9,8 +9,9 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class Assets extends AssetManager {
     public TextureAtlas atlas;
-    public Animation<TextureRegion> space, alien, aliendie, naveidle, naveleft, naveright, naveshoot, shoot ,alienshoot;
+    public Animation<TextureRegion> space, alien, aliendie, hearts, naveidle, naveleft, naveright, naveshoot, shoot ,alienshoot;
     public Sound shootSound = Gdx.audio.newSound(Gdx.files.internal("shootsound.wav"));
+
     public Sound alienSound = Gdx.audio.newSound(Gdx.files.internal("aliensound.wav"));
     public Sound aliendieSound = Gdx.audio.newSound(Gdx.files.internal("aliendie.wav"));
 
@@ -35,11 +36,13 @@ public class Assets extends AssetManager {
 
         alien = new Animation<TextureRegion>(0.4f, atlas.findRegions("alien"));
         aliendie = new Animation<TextureRegion>(0.05f, atlas.findRegions("aliendie"));
+        hearts = new Animation<TextureRegion>(0.05f, atlas.findRegions("heart"));
+
         naveidle = new Animation<TextureRegion>(0.1f, atlas.findRegions("naveidle"));
         naveleft = new Animation<TextureRegion>(0.1f, atlas.findRegions("naveleft"));
         naveright = new Animation<TextureRegion>(0.1f, atlas.findRegions("naveright"));
         naveshoot = new Animation<TextureRegion>(0.1f, atlas.findRegions("naveshoot"));
-        shoot = new Animation<TextureRegion>(0.02f, atlas.findRegions("shoot"));
+        shoot = new Animation<TextureRegion>(0.05f, atlas.findRegions("shoot"));
         alienshoot = new Animation<TextureRegion>(0.1f, atlas.findRegions("alienshoot"));
     }
 }

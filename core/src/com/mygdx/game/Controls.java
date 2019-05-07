@@ -13,6 +13,14 @@ public class Controls {
     }
 
     public static boolean isShootPressed() {
-        return Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W);
+        return Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)|| Gdx.input.isKeyPressed(Input.Keys.SPACE);
+    }
+
+    public static boolean isMegaShootPressed() {
+        return Gdx.input.isKeyPressed(Input.Keys.S)|| Gdx.input.isKeyPressed(Input.Keys.DOWN);
+    }
+
+    public static boolean notKeyPressed(){
+        return !isLeftPressed() && ! isRightPressed() && !isMegaShootPressed() && !isShootPressed();
     }
 }
