@@ -36,12 +36,12 @@ public class Assets extends AssetManager {
 
         alien = new Animation<TextureRegion>(0.4f, atlas.findRegions("alien"));
         aliendie = new Animation<TextureRegion>(0.05f, atlas.findRegions("aliendie"));
-        hearts = new Animation<TextureRegion>(0.05f, atlas.findRegions("heart"));
+        hearts = new Animation<TextureRegion>(0.75f, atlas.findRegions("heart"));
 
         naveidle = new Animation<TextureRegion>(0.1f, atlas.findRegions("naveidle"));
         naveleft = new Animation<TextureRegion>(0.1f, atlas.findRegions("naveleft"));
         naveright = new Animation<TextureRegion>(0.1f, atlas.findRegions("naveright"));
-        naveshoot = new Animation<TextureRegion>(0.1f, atlas.findRegions("naveshoot"));
+        naveshoot = new Animation<TextureRegion>(0.2f, atlas.findRegions("naveshoot"));
         shoot = new Animation<TextureRegion>(0.05f, atlas.findRegions("shoot"));
         alienshoot = new Animation<TextureRegion>(0.1f, atlas.findRegions("alienshoot"));
     }

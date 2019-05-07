@@ -23,4 +23,11 @@ public class Controls {
     public static boolean notKeyPressed(){
         return !isLeftPressed() && ! isRightPressed() && !isMegaShootPressed() && !isShootPressed();
     }
+
+    public static boolean isMinusPressed(){
+        return Gdx.input.isKeyPressed(Input.Keys.MINUS);
+    }
+    public static boolean isPluslePressed(){
+        return Gdx.input.isKeyPressed(Input.Keys.PLUS);
+    }
 }

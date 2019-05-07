@@ -5,6 +5,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Assets;
 import com.mygdx.game.Controls;
+import com.mygdx.game.SoundsConfiguration;
+import com.mygdx.game.screen.GameScreen;
 import com.mygdx.game.screen.Hud;
 
 public class Ship {
@@ -15,23 +17,25 @@ public class Ship {
 
     State state;
     Vector2 position;
-    int lives;
-    int score= 0;
+    private int lives;
+    private int score= 0;
     float stateTime;
     float speed = 5;
+    SoundsConfiguration soundsConfiguration;
 
     TextureRegion frame;
 
     Weapon weapon;
     Hud hud;
 
-    Ship(int initialPosition, int lives){
+    Ship(int initialPosition, int lives, float WORLD_WIDTH, int WORLD_HEIGHT, SoundsConfiguration soundsConfiguration){
         position = new Vector2(initialPosition, 10);
+        this.soundsConfiguration=soundsConfiguration;
         state = State.IDLE;
         stateTime = 0;
         this.lives=lives;
         weapon = new Weapon();
-        hud=new Hud(lives,score);
+        hud=new Hud(lives,score,WORLD_WIDTH, WORLD_HEIGHT);
     }
 
 
@@ -143,7 +147,7 @@ public class Ship {
 
     public void update(float delta, Assets assets) {
         stateTime += delta;
-
+        soundsConfiguration.update();
         processInput(assets);
 
         setFrame(assets);
@@ -167,7 +171,8 @@ public class Ship {
 
     void shoot(Assets assets){
         weapon.shoot(position.x + (frame.getRegionWidth()/2));
-        long id =assets.shootSound.play(0.5f);
+
+        long id =assets.shootSound.play(soundsConfiguration.getVolumeShipShoot());
         //assets.shootSound.setVolume(id,0);
     }
 
@@ -182,14 +187,23 @@ public class Ship {
     }
 
     public void damage() {
+        setLives((getLives()>=0) ?  getLives()-1 :(-1));
+
 
     }
 
     public int getLives() {
         return lives;
     }
-
     public void setLives(int lives) {
         this.lives = lives;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }

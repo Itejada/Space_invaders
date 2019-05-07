@@ -4,22 +4,24 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.mygdx.game.Assets;
+import com.mygdx.game.SoundsConfiguration;
 
 public class World {
     Space space;
     Ship ship;
     AlienArmy alienArmy;
     int LIVES_PLAYER=3;
+    SoundsConfiguration soundsConfiguration;
 
     int WORLD_WIDTH, WORLD_HEIGHT;
 
     public World(int WORLD_WIDTH, int WORLD_HEIGHT){
         this.WORLD_WIDTH = WORLD_WIDTH;
         this.WORLD_HEIGHT = WORLD_HEIGHT;
-
+        this.soundsConfiguration=new SoundsConfiguration();
         space = new Space();
-        ship = new Ship(WORLD_WIDTH/2,LIVES_PLAYER);
-        alienArmy = new AlienArmy(WORLD_WIDTH, WORLD_HEIGHT);
+        ship = new Ship(WORLD_WIDTH/2,LIVES_PLAYER, WORLD_WIDTH, WORLD_HEIGHT,soundsConfiguration);
+        alienArmy = new AlienArmy(WORLD_WIDTH, WORLD_HEIGHT,soundsConfiguration);
     }
 
     public void render(float delta, SpriteBatch batch, Assets assets){
@@ -37,6 +39,8 @@ public class World {
         space.update(delta, assets);
         ship.update(delta, assets);
         alienArmy.update(delta, assets);
+        soundsConfiguration.update();
+
 
         checkCollisions(assets);
     }
@@ -70,9 +74,9 @@ public class World {
                     Rectangle alienRectangle = new Rectangle(alien.position.x, alien.position.y, alien.frame.getRegionWidth(), alien.frame.getRegionHeight());
 
                     if (Intersector.overlaps(shootRectangle, alienRectangle)) {
-                        alien.kill();
+                        alien.kill(ship);
                         shoot.remove();
-                        assets.aliendieSound.play();
+                        assets.aliendieSound.play(soundsConfiguration.getVolumeAlienDie());
                     }
                 }
             }
@@ -84,9 +88,9 @@ public class World {
                     Rectangle alienRectangle = new Rectangle(alien.position.x, alien.position.y, alien.frame.getRegionWidth(), alien.frame.getRegionHeight());
 
                     if (Intersector.overlaps(shootRectangle, alienRectangle)) {
-                        alien.kill();
+                        alien.kill(ship);
                         megaShoot.remove();
-                        assets.aliendieSound.play();
+                        assets.aliendieSound.play(soundsConfiguration.getVolumeAlienDie());
                     }
                 }
             }
@@ -119,11 +123,11 @@ public class World {
             }
         }
 
-        for(AlienShoot shoot: alienArmy.shoots){
-            if(shoot.position.y < 0){
-                shoot.remove();
-            }
-        }
+//        for(AlienShoot shoot: alienArmy.shoots){
+//            if(shoot.position.y < 0){
+//                shoot.remove();
+//            }
+//        }
     }
 
     private void checkNaveInWorld() {
@@ -132,5 +136,9 @@ public class World {
         } else if(ship.position.x < 0){
             ship.position.x = 0;
         }
+    }
+
+    public Ship getShip() {
+        return ship;
     }
 }

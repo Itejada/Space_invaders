@@ -44,9 +44,24 @@ public class Alien {
 
     }
 
-    public void kill() {
+    public void kill(Ship ship) {
         state = State.DYING;
         stateTime = 0;
+        switch (ship.getLives()){
+
+            case 3:
+                ship.setScore(ship.getScore()+100);
+                break;
+            case 2:
+                ship.setScore(ship.getScore()+50);
+                break;
+            case 1:
+                ship.setScore(ship.getScore()+25);
+                break;
+            case 0:
+                ship.setScore(ship.getScore()+10);
+                break;
+        }
     }
 
     public boolean isAlive() {

@@ -14,7 +14,7 @@ public class Weapon {
 
     Timer shootTimer;
     //delay
-    float shootRate = 0.5f;
+    float shootRate = 0.8f;
 
     Weapon() {
         shoots = new Array<Shoot>();

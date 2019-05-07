@@ -44,8 +44,8 @@ project(":desktop") {
 
     dependencies {
         compile project(":core")
-        compile "com.badlogicgames.gdx:gdx-backend-lwjgl:$gdxVersion"
-        compile "com.badlogicgames.gdx:gdx-platform:$gdxVersion:natives-desktop"
+        compile "com.badlogicgames.gdx:gdx-backend-lwjgl:1.9.9"
+        compile "com.badlogicgames.gdx:gdx-platform:1.9.9:natives-desktop"
 
 
     }
@@ -66,7 +66,7 @@ tasks.eclipse.doLast {
     delete ".project"
 }
 
-project.ext.texturePacker = ["core/assets/", "/core/assets/", "invaders"]
+project.ext.texturePacker = ["core/assets/", "core/assets/", "invaders"]
 
 // Import the texture packer
 import com.badlogic.gdx.tools.texturepacker.TexturePacker

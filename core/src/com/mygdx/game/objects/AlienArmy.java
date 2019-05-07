@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.Assets;
+import com.mygdx.game.SoundsConfiguration;
 import com.mygdx.game.Timer;
 
 import java.util.Random;
@@ -16,32 +17,34 @@ public class AlienArmy {
 
     Array<Alien> aliens;
     Array<AlienShoot> shoots;
-
+    SoundsConfiguration soundsConfiguration;
     Timer moveTimer, shootTimer;
     Random random = new Random();
 
-    AlienArmy(int WORLD_WIDTH, int WORLD_HEIGHT){
+    AlienArmy(int WORLD_WIDTH, int WORLD_HEIGHT, SoundsConfiguration soundsConfiguration) {
 
         this.x = 0;
-        this.y = WORLD_HEIGHT-30;
+        this.y = WORLD_HEIGHT - 30;
         this.maxX = 60;
+
+        this.soundsConfiguration=soundsConfiguration;
 
         aliens = new Array<Alien>();
         shoots = new Array<AlienShoot>();
 
         moveTimer = new Timer(0.8f);
-        shootTimer = new Timer(random.nextFloat()%5+1);
+        shootTimer = new Timer(random.nextFloat() % 5 + 1);
 
         positionAliens();
     }
 
 
-    void render(SpriteBatch batch){
-        for(Alien alien: aliens) {
+    void render(SpriteBatch batch) {
+        for (Alien alien : aliens) {
             alien.render(batch);
         }
 
-        for (AlienShoot shoot: shoots) {
+        for (AlienShoot shoot : shoots) {
             shoot.render(batch);
         }
     }
@@ -49,15 +52,16 @@ public class AlienArmy {
     public void update(float delta, Assets assets) {
         moveTimer.update(delta);
         shootTimer.update(delta);
+       // soundsConfiguration.update();
 
         move();
         shoot(assets);
 
-        for(Alien alien: aliens) {
+        for (Alien alien : aliens) {
             alien.update(delta, assets);
         }
 
-        for(AlienShoot shoot: shoots){
+        for (AlienShoot shoot : shoots) {
             shoot.update(delta, assets);
         }
 
@@ -67,31 +71,31 @@ public class AlienArmy {
     }
 
 
-    void positionAliens(){
+    void positionAliens() {
         for (int i = 0; i < 5; i++) {  // fila
             for (int j = 0; j < 11; j++) {  // columna
-                aliens.add(new Alien(j*30 + 10, y - i*12));
+                aliens.add(new Alien(j * 30 + 10, y - i * 12));
             }
         }
     }
 
 
     void move() {
-        if (moveTimer.check()){
+        if (moveTimer.check()) {
             x += speed;
 
-            if(x > maxX){
+            if (x > maxX) {
                 for (Alien alien : aliens) {
-                alien.position.y -= 10;
-            }
+                    alien.position.y -= 10;
+                }
                 x = maxX;
                 speed *= -1;
 
 
-            } else if(x < 0){
+            } else if (x < 0) {
                 for (Alien alien : aliens) {
-                alien.position.y -= 10;
-            }
+                    alien.position.y -= 10;
+                }
                 x = 0;
                 speed *= -1;
 
@@ -104,8 +108,8 @@ public class AlienArmy {
         }
     }
 
-    void shoot(Assets assets){
-        if(shootTimer.check()) {
+    void shoot(Assets assets) {
+        if (shootTimer.check()) {
             if (aliens.size > 0) {
                 int alienNum = random.nextInt(aliens.size);
 
@@ -113,7 +117,8 @@ public class AlienArmy {
 
                 shoots.add(new AlienShoot(new Vector2(alien.position)));
 
-                assets.alienSound.play();
+                assets.alienSound.play(soundsConfiguration.getVolumeAlienShoot());
+
 
                 shootTimer.set(random.nextFloat() % 5 + 1);
 
@@ -123,25 +128,26 @@ public class AlienArmy {
 
     private void removeDeadAliens() {
         Array<Alien> aliensToRemove = new Array<Alien>();
-        for(Alien alien: aliens){
-            if(alien.state == Alien.State.DEAD){
+        for (Alien alien : aliens) {
+            if (alien.state == Alien.State.DEAD) {
                 aliensToRemove.add(alien);
             }
         }
 
-        for (Alien alien: aliensToRemove){
+        for (Alien alien : aliensToRemove) {
             aliens.removeValue(alien, true);
         }
     }
-    public void removeShoots(){
+
+    public void removeShoots() {
         Array<AlienShoot> shootsToRemove = new Array<AlienShoot>();
-        for(AlienShoot shoot:shoots){
-            if(shoot.state == AlienShoot.State.TO_REMOVE){
+        for (AlienShoot shoot : shoots) {
+            if (shoot.state == AlienShoot.State.TO_REMOVE) {
                 shootsToRemove.add(shoot);
             }
         }
 
-        for (AlienShoot shoot: shootsToRemove){
+        for (AlienShoot shoot : shootsToRemove) {
             shoots.removeValue(shoot, true);
         }
     }
