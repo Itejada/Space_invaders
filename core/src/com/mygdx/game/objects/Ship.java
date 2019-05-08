@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.mygdx.game.Assets;
 import com.mygdx.game.Controls;
 import com.mygdx.game.SoundsConfiguration;
+import com.mygdx.game.Timer;
 import com.mygdx.game.screen.GameScreen;
 import com.mygdx.game.screen.Hud;
 
@@ -22,7 +23,7 @@ public class Ship {
     float stateTime;
     float speed = 5;
     SoundsConfiguration soundsConfiguration;
-
+    Timer soundShootTimer=new Timer(1f);
     TextureRegion frame;
 
     Weapon weapon;
@@ -172,8 +173,10 @@ public class Ship {
     void shoot(Assets assets){
         weapon.shoot(position.x + (frame.getRegionWidth()/2));
 
-        long id =assets.shootSound.play(soundsConfiguration.getVolumeShipShoot());
-        //assets.shootSound.setVolume(id,0);
+
+
+       assets.shootSound.play(soundsConfiguration.getVolumeShipShoot());
+        
     }
 
     void chargeMegaShoot(){
@@ -183,11 +186,12 @@ public class Ship {
 
     void megaShoot(Assets assets){
         weapon.megaShoot(position.x + (frame.getRegionWidth()/2));
-        assets.shootSound.play();
+        assets.shootSound.play(soundsConfiguration.getGetVolumeShipMegaShoot());
     }
 
-    public void damage() {
+    public void damage(Assets assets) {
         setLives((getLives()>=0) ?  getLives()-1 :(-1));
+        assets.shipDamageSound.play(soundsConfiguration.getVolumeShipDamage());
 
 
     }

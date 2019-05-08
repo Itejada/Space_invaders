@@ -110,7 +110,7 @@ public class AlienArmy {
 
     void shoot(Assets assets) {
         if (shootTimer.check()) {
-            if (aliens.size > 0) {
+            if (aliens.size > 0) { //FIXME ya no hay null pointer exception
                 int alienNum = random.nextInt(aliens.size);
 
                 Alien alien = aliens.get(alienNum);
@@ -136,6 +136,9 @@ public class AlienArmy {
 
         for (Alien alien : aliensToRemove) {
             aliens.removeValue(alien, true);
+        }
+        if(aliens.size==0){
+            System.out.println("WIN");
         }
     }
 

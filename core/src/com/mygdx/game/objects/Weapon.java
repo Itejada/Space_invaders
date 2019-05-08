@@ -66,6 +66,7 @@ public class Weapon {
     }
 
     public void megaShoot(float position) {
+        //se establece un minimo de potencia
         if (power > 5) {
             megaShoots.add(new MegaShoot(position, power));
             power = 0;

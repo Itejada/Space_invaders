@@ -15,7 +15,7 @@ public class MegaShoot {
     float stateTime;
     State state;
     float speed = 1;
-    float potencia;
+    private float potencia;
 
     TextureRegion frame;
 
@@ -40,5 +40,13 @@ public class MegaShoot {
 
     public void remove(){
         state = State.TO_REMOVE;
+    }
+
+    public float getPotencia() {
+        return potencia;
+    }
+
+    public void setPotencia(float potencia) {
+        this.potencia = potencia;
     }
 }

@@ -12,6 +12,7 @@ public class World {
     AlienArmy alienArmy;
     int LIVES_PLAYER=3;
     SoundsConfiguration soundsConfiguration;
+    float potencia;
 
     int WORLD_WIDTH, WORLD_HEIGHT;
 
@@ -50,17 +51,20 @@ public class World {
         checkShootsInWorld();
         checkMegaShootsInWorld();
         checkShootsToAlien(assets);
-        checkShootsToShip();
+        checkShootsToShip(assets);
+        checkMegaShootToAlien(assets);
+        checkShipToAlien(assets);
+
     }
 
-    private void checkShootsToShip() {
+    private void checkShootsToShip(Assets assets) {
         Rectangle shipRectangle = new Rectangle(ship.position.x, ship.position.y, ship.frame.getRegionWidth(), ship.frame.getRegionHeight());
 
         for(AlienShoot shoot: alienArmy.shoots){
             Rectangle shootRectangle = new Rectangle(shoot.position.x, shoot.position.y, shoot.frame.getRegionWidth(), shoot.frame.getRegionHeight());
 
             if (Intersector.overlaps(shootRectangle, shipRectangle)) {
-                ship.damage();
+                ship.damage(assets);
                 shoot.remove();
             }
         }
@@ -81,20 +85,40 @@ public class World {
                 }
             }
         }
+    }
+    private void checkMegaShootToAlien(Assets assets) {
         for(MegaShoot megaShoot: ship.weapon.megaShoots){
-            Rectangle shootRectangle = new Rectangle(megaShoot.position.x, megaShoot.position.y, megaShoot.frame.getRegionWidth(), megaShoot.frame.getRegionHeight());
+            potencia=megaShoot.getPotencia();
+            Rectangle shootRectangle = new Rectangle(megaShoot.position.x-(potencia/2), megaShoot.position.y, potencia, 2*potencia);
             for(Alien alien: alienArmy.aliens){
                 if(alien.isAlive()) {
                     Rectangle alienRectangle = new Rectangle(alien.position.x, alien.position.y, alien.frame.getRegionWidth(), alien.frame.getRegionHeight());
 
                     if (Intersector.overlaps(shootRectangle, alienRectangle)) {
                         alien.kill(ship);
-                        megaShoot.remove();
+                       // megaShoot.remove();
                         assets.aliendieSound.play(soundsConfiguration.getVolumeAlienDie());
                     }
                 }
             }
         }
+    }
+
+    private void checkShipToAlien(Assets assets) {
+        Rectangle shipRectangle = new Rectangle(ship.position.x, ship.position.y, ship.frame.getRegionWidth(), ship.frame.getRegionHeight());
+
+        for(Alien alien: alienArmy.aliens){
+                if(alien.isAlive()) {
+                    Rectangle alienRectangle = new Rectangle(alien.position.x, alien.position.y, alien.frame.getRegionWidth(), alien.frame.getRegionHeight());
+
+                    if (Intersector.overlaps(shipRectangle, alienRectangle)) {
+                        alien.kill(ship);
+                        ship.damage(assets);
+                        assets.aliendieSound.play(soundsConfiguration.getVolumeAlienDie());
+                    }
+                }
+            }
+
     }
 
     private void checkShootsInWorld() {
