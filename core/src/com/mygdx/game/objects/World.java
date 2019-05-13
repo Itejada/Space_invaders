@@ -10,6 +10,7 @@ public class World {
     Space space;
     Ship ship;
     AlienArmy alienArmy;
+    IABoss iaBoss;
     int LIVES_PLAYER=4;
     SoundsConfiguration soundsConfiguration;
     float potencia;
@@ -23,6 +24,7 @@ public class World {
         space = new Space();
         ship = new Ship(WORLD_WIDTH/2,LIVES_PLAYER, WORLD_WIDTH, WORLD_HEIGHT,soundsConfiguration);
         alienArmy = new AlienArmy(WORLD_WIDTH, WORLD_HEIGHT,soundsConfiguration);
+        iaBoss=new IABoss(WORLD_WIDTH, WORLD_HEIGHT,soundsConfiguration);
     }
 
     public void render(float delta, SpriteBatch batch, Assets assets){
@@ -33,6 +35,8 @@ public class World {
         space.render(batch);
         ship.render(batch);
         alienArmy.render(batch);
+        iaBoss.render(batch);
+
         batch.end();
     }
 
@@ -40,6 +44,7 @@ public class World {
         space.update(delta, assets);
         ship.update(delta, assets);
         alienArmy.update(delta, assets);
+
         soundsConfiguration.update();
 
 

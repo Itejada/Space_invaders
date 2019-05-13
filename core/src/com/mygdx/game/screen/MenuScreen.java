@@ -12,16 +12,19 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.mygdx.game.Assets;
 import com.mygdx.game.SpaceInvaders;
+import com.mygdx.game.objects.Space;
 
 public class MenuScreen extends SpaceInvadersScreen {
 
+    Space space;
     Stage stage;
     public SpriteBatch spriteBatch;
 
     public OrthographicCamera camera;
     public Viewport viewport;
-    private Image boton;
+    private Image botonPlay,botonSound,botonExit;
     Table table;
 
     private BitmapFont font= new BitmapFont();
@@ -35,46 +38,80 @@ public class MenuScreen extends SpaceInvadersScreen {
     @Override
     public void show() {
 
+        space = new Space();
+        spriteBatch = new SpriteBatch();
 
         camera = new OrthographicCamera();
         camera.position.set(SCENE_WIDTH / 2, SCENE_HEIGHT / 2, 0);
         viewport = new FitViewport(SCENE_WIDTH, SCENE_HEIGHT, camera);
         viewport.apply();
-        spriteBatch = new SpriteBatch();
 
         stage= new Stage(viewport);
 
         table=new Table();
 
-        boton=new Image(new Texture("shoot.png"));
+        botonPlay =new Image(new Texture("menu_0.png"));
+        botonSound =new Image(new Texture("menu_1.png"));
+        botonExit =new Image(new Texture("menu_2.png"));
+
+
         //detectar clicks
         Gdx.input.setInputProcessor(stage);
-        boton.setPosition((SCENE_WIDTH / 2)-24,(SCENE_HEIGHT/2)-48);
+        botonPlay.setPosition((SCENE_WIDTH / 2)-24,(SCENE_HEIGHT/2)+28);
+        botonSound.setPosition((SCENE_WIDTH / 2)-24,SCENE_HEIGHT/2);
+        botonExit.setPosition((SCENE_WIDTH / 2)-24,(SCENE_HEIGHT/2)-28);
 
-        stage.addActor(boton);
+        stage.addActor(botonPlay);
+        stage.addActor(botonSound);
+        stage.addActor(botonExit);
 
 
 
-        boton.addListener(new ClickListener(){
+
+        botonPlay.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 setScreen(new GameScreen(game));
             }
         });
+        botonSound.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                setScreen(new GameScreen(game));
+            }
+        });
+        botonExit.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                Gdx.app.exit();
+            }
+        });
 
 
+        stage.addActor(table);
     }
 
 
     @Override
     public void render(float delta) {
         spriteBatch.setProjectionMatrix(camera.combined);
+        update(delta,assets);
+
         spriteBatch.begin();
-        font.draw(spriteBatch,"GAME OVER", SCENE_WIDTH/1.62f,  SCENE_HEIGHT/1.75f,0,SCENE_WIDTH/2,false);
+        space.render(spriteBatch);
         spriteBatch.end();
         stage.draw();
+
     }
+
+    void update(float delta, Assets assets) {
+
+        space.update(delta,assets);
+    }
+
 
     @Override
     public void resize(int width, int height) {
