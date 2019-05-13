@@ -25,41 +25,44 @@ public class Alien {
         batch.draw(frame, position.x, position.y);
     }
 
-    void update(float delta, Assets assets){
+    void update(float delta, Assets assets) {
         stateTime += delta;
-        if(state == State.LIVE) {
+        if (state == State.LIVE) {
             frame = assets.alien.getKeyFrame(stateTime, true);
-        } else if(state == State.DYING){
+        } else if (state == State.DYING) {
             frame = assets.aliendie.getKeyFrame(stateTime, false);
         }
 
-        if(state == State.DYING){
-            if(assets.aliendie.isAnimationFinished(stateTime)){
+        if (state == State.DYING) {
+            if (assets.aliendie.isAnimationFinished(stateTime)) {
                 state = State.DEAD;
             }
         }
     }
 
-    void shoot(){
+    void shoot() {
 
     }
 
     public void kill(Ship ship) {
         state = State.DYING;
         stateTime = 0;
-        switch (ship.getLives()){
+        switch (ship.getLives()) {
 
             case 3:
-                ship.setScore(ship.getScore()+100);
+                ship.setScore(ship.getScore() + 100);
                 break;
             case 2:
-                ship.setScore(ship.getScore()+50);
+                ship.setScore(ship.getScore() + 50);
                 break;
             case 1:
-                ship.setScore(ship.getScore()+25);
+                ship.setScore(ship.getScore() + 25);
                 break;
             case 0:
-                ship.setScore(ship.getScore()+10);
+                ship.setScore(ship.getScore() + 10);
+                break;
+            default:
+                ship.setScore(ship.getScore() + 150);
                 break;
         }
     }

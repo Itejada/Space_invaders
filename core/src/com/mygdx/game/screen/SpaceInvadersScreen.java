@@ -7,7 +7,8 @@ import com.mygdx.game.SpaceInvaders;
 public class SpaceInvadersScreen implements Screen {
     SpaceInvaders game;
     Assets assets;
-
+    public int SCENE_WIDTH = 384;
+    public int SCENE_HEIGHT = 256;
     public SpaceInvadersScreen(SpaceInvaders game){
         this.game = game;
         this.assets = game.assets;
@@ -50,5 +51,9 @@ public class SpaceInvadersScreen implements Screen {
     @Override
     public void dispose() {
 
+    }
+
+    public SpaceInvaders getGame() {
+        return game;
     }
 }

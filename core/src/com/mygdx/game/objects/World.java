@@ -10,7 +10,7 @@ public class World {
     Space space;
     Ship ship;
     AlienArmy alienArmy;
-    int LIVES_PLAYER=3;
+    int LIVES_PLAYER=4;
     SoundsConfiguration soundsConfiguration;
     float potencia;
 

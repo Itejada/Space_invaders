@@ -35,7 +35,7 @@ public class Ship {
         state = State.IDLE;
         stateTime = 0;
         this.lives=lives;
-        weapon = new Weapon();
+        weapon = new Weapon(soundsConfiguration);
         hud=new Hud(lives,score,WORLD_WIDTH, WORLD_HEIGHT);
     }
 
@@ -171,12 +171,11 @@ public class Ship {
     }
 
     void shoot(Assets assets){
-        weapon.shoot(position.x + (frame.getRegionWidth()/2));
+        weapon.shoot(position.x + (frame.getRegionWidth()/2), assets);
 
 
 
-       assets.shootSound.play(soundsConfiguration.getVolumeShipShoot());
-        
+
     }
 
     void chargeMegaShoot(){

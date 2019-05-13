@@ -15,8 +15,7 @@ public class GameScreen extends SpaceInvadersScreen {
     public OrthographicCamera camera;
     public Viewport viewport;
 
-    public int SCENE_WIDTH = 384;
-    public int SCENE_HEIGHT = 256;
+
     private BitmapFont font= new BitmapFont();
 
 
@@ -44,9 +43,10 @@ public class GameScreen extends SpaceInvadersScreen {
         if (world.getShip().getLives()!= -1) {
             world.render(delta, spriteBatch, assets);
         }else{
-            spriteBatch.begin();
-            font.draw(spriteBatch,"GAME OVER", SCENE_WIDTH/1.62f,  SCENE_HEIGHT/1.75f,0,SCENE_WIDTH/2,false);
-            spriteBatch.end();
+            setScreen(new GameOverScreen(game));
+//            spriteBatch.begin();
+//            font.draw(spriteBatch,"GAME OVER", SCENE_WIDTH/1.62f,  SCENE_HEIGHT/1.75f,0,SCENE_WIDTH/2,false);
+//            spriteBatch.end();
         }
     }
 

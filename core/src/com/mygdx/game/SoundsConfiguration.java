@@ -9,8 +9,7 @@ public class SoundsConfiguration {
     float getVolumeShipMegaShoot=0f;
 
 
-    public SoundsConfiguration() {
-    }
+    public SoundsConfiguration() {}
 
 
     public void update() {

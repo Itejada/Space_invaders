@@ -3,6 +3,7 @@ package com.mygdx.game.objects;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.Assets;
+import com.mygdx.game.SoundsConfiguration;
 import com.mygdx.game.Timer;
 
 public class Weapon {
@@ -11,12 +12,14 @@ public class Weapon {
     Array<MegaShoot> megaShoots;
     float power = 0;
     float maxPower = 20;
+    SoundsConfiguration soundsConfiguration;
 
     Timer shootTimer;
     //delay
     float shootRate = 0.8f;
 
-    Weapon() {
+    Weapon(SoundsConfiguration soundsConfiguration) {
+        this.soundsConfiguration=soundsConfiguration;
         shoots = new Array<Shoot>();
         megaShoots = new Array<MegaShoot>();
         //aqui le asignamos un delay para que no dispare demasiado rapido
@@ -53,9 +56,12 @@ public class Weapon {
         removeMegaShoots();
     }
 
-    public void shoot(float position) {
+    public void shoot(float position, Assets assets) {
         if (shootTimer.check()) {
+            assets.shootSound.play(soundsConfiguration.getVolumeShipShoot());
+
             shoots.add(new Shoot(position));
+
         }
     }
 
