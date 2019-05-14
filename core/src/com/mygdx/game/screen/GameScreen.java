@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.SpaceInvaders;
+import com.mygdx.game.objects.IABoss;
 import com.mygdx.game.objects.World;
 
 public class GameScreen extends SpaceInvadersScreen {
@@ -34,19 +35,17 @@ public class GameScreen extends SpaceInvadersScreen {
 
         spriteBatch = new SpriteBatch();
 
-        world = new World(SCENE_WIDTH, SCENE_HEIGHT);
+        world = new World(SCENE_WIDTH, SCENE_HEIGHT );
     }
 
     @Override
     public void render(float delta) {
         spriteBatch.setProjectionMatrix(camera.combined);
-        if (world.getShip().getLives()!= -1) {
+        if (world.getShip().getLives()!= -1 && !world.getIaBoss().isWin()) {
             world.render(delta, spriteBatch, assets);
         }else{
-            setScreen(new GameOverScreen(game));
-//            spriteBatch.begin();
-//            font.draw(spriteBatch,"GAME OVER", SCENE_WIDTH/1.62f,  SCENE_HEIGHT/1.75f,0,SCENE_WIDTH/2,false);
-//            spriteBatch.end();
+            GameOver();
+
         }
     }
 
@@ -55,6 +54,11 @@ public class GameScreen extends SpaceInvadersScreen {
         super.resize(width, height);
 
         viewport.update(width, height);
+    }
+
+    public void GameOver(){
+        setScreen(new GameOverScreen(game,world.getShip().getScore()));
+
     }
 
 

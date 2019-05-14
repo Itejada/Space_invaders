@@ -11,18 +11,29 @@ public class BossAlien {
         LIVE, DYING, DEAD
     }
 
-     Vector2 positionBoss;
+    Vector2 positionBoss;
     float stateTime;
-     TextureRegion frame;
+    TextureRegion frame, live;
     StateBoss stateBoss;
+    int LIVES_BOSS;
+    int WIDTH_WORLD,HEIGTH_WORLD;
 
-    public BossAlien(int x, int y) {
+
+    public BossAlien(int x, int y, int LIVES_BOSS, int WIDTH_WORLD, int HEIGTH_WORLD) {
         positionBoss = new Vector2(x, y);
         stateBoss = StateBoss.LIVE;
+        this.LIVES_BOSS=LIVES_BOSS;
+        this.WIDTH_WORLD=WIDTH_WORLD;
+        this.HEIGTH_WORLD=HEIGTH_WORLD;
+
+
     }
 
     public void render(SpriteBatch batch) {
-        batch.draw(frame, positionBoss.x, positionBoss.y,100,75);
+        batch.draw(frame, positionBoss.x, positionBoss.y);
+        for (int i = 0; i < LIVES_BOSS; i++) {
+            batch.draw(live,30+(((live.getRegionWidth()*2)+1)*i),HEIGTH_WORLD-35,live.getRegionWidth()*2,live.getRegionHeight()*2);
+        }
     }
 
     void update(float delta, Assets assets) {
@@ -30,8 +41,9 @@ public class BossAlien {
         if (stateBoss == StateBoss.LIVE) {
             frame = assets.bossAlien.getKeyFrame(stateTime, true);
         } else if (stateBoss == StateBoss.DYING) {
-            frame = assets.bossAlien.getKeyFrame(stateTime, false);
+            frame = assets.bossAliendie.getKeyFrame(stateTime, false);
         }
+        live=assets.livesBoss.getKeyFrame(stateTime, true);
 
         if (stateBoss == StateBoss.DYING) {
             if (assets.bossAliendie.isAnimationFinished(stateTime)) {
@@ -44,9 +56,15 @@ public class BossAlien {
 
     }
 
-    public void kill(Ship ship) {
-        stateBoss = StateBoss.DYING;
-        stateTime = 0;
+    public void touchToBoss(Ship ship) {
+
+
+        LIVES_BOSS = ((LIVES_BOSS >= 0) ? (LIVES_BOSS - 1): (-1));
+        if (LIVES_BOSS==-1) {
+                stateBoss = StateBoss.DYING;
+                stateTime = 0;
+
+        }
         switch (ship.getLives()) {
 
             case 3:
@@ -76,7 +94,7 @@ public class BossAlien {
     }
 
     public void setPosition(int x, int y) {
-        Vector2 v=new Vector2(x,y);
+        Vector2 v = new Vector2(x, y);
         this.positionBoss = v;
     }
 }

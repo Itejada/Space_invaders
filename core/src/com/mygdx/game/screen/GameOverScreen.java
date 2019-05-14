@@ -28,14 +28,16 @@ public class GameOverScreen extends SpaceInvadersScreen {
     public OrthographicCamera camera;
     public Viewport viewport;
     private Image boton;
-    Table table;
+    int puntuacion;
+
 
     private BitmapFont font= new BitmapFont();
 
 
 
-    public GameOverScreen(SpaceInvaders spaceInvaders) {
+    public GameOverScreen(SpaceInvaders spaceInvaders, int puntuacion) {
         super(spaceInvaders);
+    this.puntuacion= puntuacion;
     }
 
     @Override
@@ -52,7 +54,7 @@ public class GameOverScreen extends SpaceInvadersScreen {
 
         //table=new Table();
 
-        boton=new Image(new Texture("heart_2.png"));
+        boton=new Image(new Texture("heartR.png"));
         //detectar clicks
         Gdx.input.setInputProcessor(stage);
         boton.setPosition((SCENE_WIDTH / 2)-24,(SCENE_HEIGHT/2)-48);
@@ -65,7 +67,7 @@ public class GameOverScreen extends SpaceInvadersScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                setScreen(new GameScreen(game));
+                setScreen(new MenuScreen(game));
             }
         });
 
@@ -78,6 +80,8 @@ public class GameOverScreen extends SpaceInvadersScreen {
         spriteBatch.setProjectionMatrix(camera.combined);
         spriteBatch.begin();
         font.draw(spriteBatch,"GAME OVER", SCENE_WIDTH/1.62f,  SCENE_HEIGHT/1.75f,0,SCENE_WIDTH/2,false);
+
+        font.draw(spriteBatch,puntuacion+"", (SCENE_WIDTH/2)+25,  (SCENE_HEIGHT/1.75f)-70,0,SCENE_WIDTH/2,false);
         spriteBatch.end();
         stage.draw();
     }

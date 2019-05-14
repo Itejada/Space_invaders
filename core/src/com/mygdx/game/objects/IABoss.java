@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.Assets;
 import com.mygdx.game.SoundsConfiguration;
 import com.mygdx.game.Timer;
+import com.mygdx.game.screen.GameScreen;
 
 import java.util.Random;
 
@@ -13,34 +14,41 @@ public class IABoss {
     int x, y, maxX;
 
     float speed = 16f;
-
+    boolean win;
     BossAlien bossAlien;
     Array<AlienShoot> shoots;
     SoundsConfiguration soundsConfiguration;
-    Timer moveTimer, shootTimer;
+    Timer moveTimer, shootTimer, winTimer;
     Random random = new Random();
+    int WORLD_WIDTH;
+    int WORLD_HEIGHT;
+    int limiteDerechaBoss;
 
     IABoss(int WORLD_WIDTH, int WORLD_HEIGHT, SoundsConfiguration soundsConfiguration) {
 
-        this.x = WORLD_WIDTH/2;
+        this.x = WORLD_WIDTH / 2;
         this.y = WORLD_HEIGHT - 90;
-        this.maxX = 120;
+        this.maxX = 240;
+        this.WORLD_HEIGHT = WORLD_HEIGHT;
+        this.WORLD_WIDTH = WORLD_WIDTH;
 
         this.soundsConfiguration = soundsConfiguration;
 
-        bossAlien = new BossAlien(x,y);
+        bossAlien = new BossAlien(x, y, 10, WORLD_WIDTH, WORLD_HEIGHT);
         shoots = new Array<AlienShoot>();
 
-        moveTimer = new Timer(0.8f);
+        limiteDerechaBoss = WORLD_WIDTH - 10;
+        moveTimer = new Timer(0.4f);
         shootTimer = new Timer(random.nextFloat() % 5 + 1);
+        winTimer = new Timer(5f);
+        win = false;
 
-        //positionBoss();
     }
 
 
     void render(SpriteBatch batch) {
 
-            bossAlien.render(batch);
+        bossAlien.render(batch);
 
 
         for (AlienShoot shoot : shoots) {
@@ -51,6 +59,9 @@ public class IABoss {
     public void update(float delta, Assets assets) {
         moveTimer.update(delta);
         shootTimer.update(delta);
+        if (bossAlien.LIVES_BOSS==-1) {
+            winTimer.update(delta);
+        }
         // soundsConfiguration.update();
 
         move();
@@ -68,21 +79,17 @@ public class IABoss {
     }
 
 
-    void positionBoss() {
-               bossAlien=new BossAlien( x, y );
-    }
-
-
     void move() {
         if (moveTimer.check()) {
             x += speed;
 
-            if (x > maxX) {
-                x = maxX;
+
+            if (x >= limiteDerechaBoss - bossAlien.frame.getRegionWidth()) {
+                x = limiteDerechaBoss - bossAlien.frame.getRegionWidth();
                 speed *= -1;
 
-            } else if (x < 0) {
-                x = 0;
+            } else if (x <= 30) {
+                x = 20;
                 speed *= -1;
             }
 
@@ -94,12 +101,13 @@ public class IABoss {
 
     void shoot(Assets assets) {
         if (shootTimer.check()) {
-            if (!bossAlien.isAlive()) { //FIXME ya no hay null pointer exception
-                   shoots.add(new AlienShoot(new Vector2(bossAlien.positionBoss)));
+            if (bossAlien.isAlive()) { //TODO ya no hay null pointer exception
+                //TODO para que aparezca a mitad de la nave
+                shoots.add(new AlienShoot(new Vector2(bossAlien.positionBoss.x + (bossAlien.frame.getRegionWidth() / 2), bossAlien.positionBoss.y)));
 
                 assets.alienSound.play(soundsConfiguration.getVolumeAlienShoot());
 
-                shootTimer.set(random.nextFloat() % 5 + 1);
+                shootTimer.set(random.nextFloat() % 1);
 
             }
         }
@@ -108,7 +116,10 @@ public class IABoss {
     private void winShip() {
 
         if (!bossAlien.isAlive()) {
-            System.out.println("WIN");
+            if (winTimer.check()) {
+                System.out.println("WIN");
+                this.win = true;
+            }
         }
     }
 
@@ -123,5 +134,9 @@ public class IABoss {
         for (AlienShoot shoot : shootsToRemove) {
             shoots.removeValue(shoot, true);
         }
+    }
+
+    public boolean isWin() {
+        return win;
     }
 }

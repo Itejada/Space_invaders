@@ -35,7 +35,7 @@ public class SoundsConfiguration {
         }
 
 
-        System.out.println(volumeAlienShoot + "aa");
+        //System.out.println(volumeAlienShoot + "aa");
 
 
     }

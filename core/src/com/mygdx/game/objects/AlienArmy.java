@@ -137,9 +137,7 @@ public class AlienArmy {
         for (Alien alien : aliensToRemove) {
             aliens.removeValue(alien, true);
         }
-        if(aliens.size==0){
-            System.out.println("WIN");
-        }
+
     }
 
     public void removeShoots() {

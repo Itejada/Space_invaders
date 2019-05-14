@@ -59,7 +59,10 @@ public class World {
         checkShootsInWorld();
         checkMegaShootsInWorld();
         checkShootsToAlien(assets);
+        checkShootsToAlienBoss(assets);
         checkShootsToShip(assets);
+        checkShootsBossToShip(assets);
+
         checkMegaShootToAlien(assets);
         checkShipToAlien(assets);
 
@@ -72,6 +75,19 @@ public class World {
             Rectangle shootRectangle = new Rectangle(shoot.position.x, shoot.position.y, shoot.frame.getRegionWidth(), shoot.frame.getRegionHeight());
 
             if (Intersector.overlaps(shootRectangle, shipRectangle)) {
+                ship.damage(assets);
+                shoot.remove();
+            }
+        }
+    }
+    private void checkShootsBossToShip(Assets assets) {
+        Rectangle shipRectangle = new Rectangle(ship.position.x, ship.position.y, ship.frame.getRegionWidth(), ship.frame.getRegionHeight());
+
+        for(AlienShoot shoot: iaBoss.shoots){
+            Rectangle shootBossRectangle = new Rectangle(shoot.position.x, shoot.position.y, shoot.frame.getRegionWidth(), shoot.frame.getRegionHeight());
+
+
+            if (Intersector.overlaps(shootBossRectangle, shipRectangle)) {
                 ship.damage(assets);
                 shoot.remove();
             }
@@ -91,6 +107,22 @@ public class World {
                         assets.aliendieSound.play(soundsConfiguration.getVolumeAlienDie());
                     }
                 }
+            }
+        }
+    }
+    private void checkShootsToAlienBoss(Assets assets) {
+        for(Shoot shoot: ship.weapon.shoots){
+            Rectangle shootRectangle = new Rectangle(shoot.position.x, shoot.position.y, shoot.frame.getRegionWidth(), shoot.frame.getRegionHeight());
+
+                if(iaBoss.bossAlien.isAlive() && alienArmy.aliens.size==0) {
+                    Rectangle alienRectangle = new Rectangle(iaBoss.bossAlien.positionBoss.x, iaBoss.bossAlien.positionBoss.y, iaBoss.bossAlien.frame.getRegionWidth(), iaBoss.bossAlien.frame.getRegionHeight());
+
+                    if (Intersector.overlaps(shootRectangle, alienRectangle)) {
+                        shoot.remove();
+                        iaBoss.bossAlien.touchToBoss(ship);
+                        assets.aliendieSound.play(soundsConfiguration.getVolumeAlienDie());
+                    }
+
             }
         }
     }
@@ -172,5 +204,13 @@ public class World {
 
     public Ship getShip() {
         return ship;
+    }
+
+    public IABoss getIaBoss() {
+        return iaBoss;
+    }
+
+    public void setIaBoss(IABoss iaBoss) {
+        this.iaBoss = iaBoss;
     }
 }
