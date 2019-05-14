@@ -18,7 +18,7 @@ public class Alien {
 
     public Alien(int x, int y) {
         positionAlien = new Vector2(x, y);
-        state = State.DYING;
+        state = State.LIVE;
     }
 
     public void render(SpriteBatch batch) {

@@ -40,7 +40,7 @@ public class IABoss {
         limiteDerechaBoss = WORLD_WIDTH - 10;
         moveTimer = new Timer(0.4f);
         shootTimer = new Timer(random.nextFloat() % 5 + 1);
-        winTimer = new Timer(5f);
+        winTimer = new Timer(3f);
         win = false;
 
     }
@@ -74,7 +74,7 @@ public class IABoss {
         }
 
 
-        winShip();
+        winShip(assets);
         removeShoots();
     }
 
@@ -107,15 +107,16 @@ public class IABoss {
 
                 assets.alienSound.play(soundsConfiguration.getVolumeAlienShoot());
 
-                shootTimer.set(random.nextFloat() % 1);
+                shootTimer.set((random.nextFloat() % 0.5f)+0.2f);
 
             }
         }
     }
 
-    private void winShip() {
+    private void winShip(Assets assets) {
 
         if (!bossAlien.isAlive()) {
+            assets.winSound.play();
             if (winTimer.check()) {
                 System.out.println("WIN");
                 this.win = true;

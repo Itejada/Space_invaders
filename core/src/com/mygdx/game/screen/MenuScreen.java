@@ -79,7 +79,7 @@ public class MenuScreen extends SpaceInvadersScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                setScreen(new GameScreen(game));
+                setScreen(new SoundScreen(game));
             }
         });
         botonExit.addListener(new ClickListener(){

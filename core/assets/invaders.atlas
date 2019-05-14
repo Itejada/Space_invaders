@@ -223,6 +223,13 @@ livesBoss
   index: 0
 livesBoss
   rotate: false
+  xy: 1006, 936
+  size: 16, 5
+  orig: 16, 5
+  offset: 0, 0
+  index: 4
+livesBoss
+  rotate: false
   xy: 1006, 929
   size: 16, 5
   orig: 16, 5
@@ -242,13 +249,6 @@ livesBoss
   orig: 16, 5
   offset: 0, 0
   index: 3
-livesBoss
-  rotate: false
-  xy: 1006, 908
-  size: 16, 5
-  orig: 16, 5
-  offset: 0, 0
-  index: 4
 menu
   rotate: false
   xy: 2, 35

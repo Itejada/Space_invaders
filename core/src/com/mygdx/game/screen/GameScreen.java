@@ -57,7 +57,7 @@ public class GameScreen extends SpaceInvadersScreen {
     }
 
     public void GameOver(){
-        setScreen(new GameOverScreen(game,world.getShip().getScore()));
+        setScreen(new GameOverScreen(game,world.getShip().getScore(), world.getIaBoss().isWin()));
 
     }
 
