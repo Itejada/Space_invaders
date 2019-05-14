@@ -35,8 +35,9 @@ public class World {
         space.render(batch);
         ship.render(batch);
         alienArmy.render(batch);
-        iaBoss.render(batch);
-
+        if(alienArmy.aliens.size==0) {
+            iaBoss.render(batch);
+        }
         batch.end();
     }
 
@@ -44,7 +45,9 @@ public class World {
         space.update(delta, assets);
         ship.update(delta, assets);
         alienArmy.update(delta, assets);
-
+        if(alienArmy.aliens.size==0) {
+            iaBoss.update(delta, assets);
+        }
         soundsConfiguration.update();
 
 
@@ -80,7 +83,7 @@ public class World {
             Rectangle shootRectangle = new Rectangle(shoot.position.x, shoot.position.y, shoot.frame.getRegionWidth(), shoot.frame.getRegionHeight());
             for(Alien alien: alienArmy.aliens){
                 if(alien.isAlive()) {
-                    Rectangle alienRectangle = new Rectangle(alien.position.x, alien.position.y, alien.frame.getRegionWidth(), alien.frame.getRegionHeight());
+                    Rectangle alienRectangle = new Rectangle(alien.positionAlien.x, alien.positionAlien.y, alien.frame.getRegionWidth(), alien.frame.getRegionHeight());
 
                     if (Intersector.overlaps(shootRectangle, alienRectangle)) {
                         alien.kill(ship);
@@ -97,7 +100,7 @@ public class World {
             Rectangle shootRectangle = new Rectangle(megaShoot.position.x-(potencia/2), megaShoot.position.y, potencia, 2*potencia);
             for(Alien alien: alienArmy.aliens){
                 if(alien.isAlive()) {
-                    Rectangle alienRectangle = new Rectangle(alien.position.x, alien.position.y, alien.frame.getRegionWidth(), alien.frame.getRegionHeight());
+                    Rectangle alienRectangle = new Rectangle(alien.positionAlien.x, alien.positionAlien.y, alien.frame.getRegionWidth(), alien.frame.getRegionHeight());
 
                     if (Intersector.overlaps(shootRectangle, alienRectangle)) {
                         alien.kill(ship);
@@ -114,7 +117,7 @@ public class World {
 
         for(Alien alien: alienArmy.aliens){
                 if(alien.isAlive()) {
-                    Rectangle alienRectangle = new Rectangle(alien.position.x, alien.position.y, alien.frame.getRegionWidth(), alien.frame.getRegionHeight());
+                    Rectangle alienRectangle = new Rectangle(alien.positionAlien.x, alien.positionAlien.y, alien.frame.getRegionWidth(), alien.frame.getRegionHeight());
 
                     if (Intersector.overlaps(shipRectangle, alienRectangle)) {
                         alien.kill(ship);
@@ -153,7 +156,7 @@ public class World {
         }
 
 //        for(AlienShoot shoot: alienArmy.shoots){
-//            if(shoot.position.y < 0){
+//            if(shoot.positionAlien.y < 0){
 //                shoot.remove();
 //            }
 //        }

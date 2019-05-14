@@ -7,35 +7,35 @@ import com.mygdx.game.Assets;
 
 public class BossAlien {
 
-    enum State {
+    public enum StateBoss {
         LIVE, DYING, DEAD
     }
 
-    Vector2 position;
+     Vector2 positionBoss;
     float stateTime;
-    TextureRegion frame;
-    BossAlien.State state;
+     TextureRegion frame;
+    StateBoss stateBoss;
 
     public BossAlien(int x, int y) {
-        position = new Vector2(x, y);
-        state = BossAlien.State.LIVE;
+        positionBoss = new Vector2(x, y);
+        stateBoss = StateBoss.LIVE;
     }
 
     public void render(SpriteBatch batch) {
-        batch.draw(frame, position.x, position.y,100,100);
+        batch.draw(frame, positionBoss.x, positionBoss.y,100,75);
     }
 
     void update(float delta, Assets assets) {
         stateTime += delta;
-        if (state == BossAlien.State.LIVE) {
-            frame = assets.alien.getKeyFrame(stateTime, true);
-        } else if (state == BossAlien.State.DYING) {
-            frame = assets.aliendie.getKeyFrame(stateTime, false);
+        if (stateBoss == StateBoss.LIVE) {
+            frame = assets.bossAlien.getKeyFrame(stateTime, true);
+        } else if (stateBoss == StateBoss.DYING) {
+            frame = assets.bossAlien.getKeyFrame(stateTime, false);
         }
 
-        if (state == BossAlien.State.DYING) {
-            if (assets.aliendie.isAnimationFinished(stateTime)) {
-                state = BossAlien.State.DEAD;
+        if (stateBoss == StateBoss.DYING) {
+            if (assets.bossAliendie.isAnimationFinished(stateTime)) {
+                stateBoss = StateBoss.DEAD;
             }
         }
     }
@@ -45,7 +45,7 @@ public class BossAlien {
     }
 
     public void kill(Ship ship) {
-        state = BossAlien.State.DYING;
+        stateBoss = StateBoss.DYING;
         stateTime = 0;
         switch (ship.getLives()) {
 
@@ -68,15 +68,15 @@ public class BossAlien {
     }
 
     public boolean isAlive() {
-        return state == BossAlien.State.LIVE;
+        return stateBoss == StateBoss.LIVE;
     }
 
-    public Vector2 getPosition() {
-        return position;
+    public Vector2 getPositionBoss() {
+        return positionBoss;
     }
 
     public void setPosition(int x, int y) {
         Vector2 v=new Vector2(x,y);
-        this.position = v;
+        this.positionBoss = v;
     }
 }

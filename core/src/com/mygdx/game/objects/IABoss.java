@@ -12,7 +12,7 @@ import java.util.Random;
 public class IABoss {
     int x, y, maxX;
 
-    float speed = 8f;
+    float speed = 16f;
 
     BossAlien bossAlien;
     Array<AlienShoot> shoots;
@@ -22,9 +22,9 @@ public class IABoss {
 
     IABoss(int WORLD_WIDTH, int WORLD_HEIGHT, SoundsConfiguration soundsConfiguration) {
 
-        this.x = 0;
-        this.y = WORLD_HEIGHT - 30;
-        this.maxX = 60;
+        this.x = WORLD_WIDTH/2;
+        this.y = WORLD_HEIGHT - 90;
+        this.maxX = 120;
 
         this.soundsConfiguration = soundsConfiguration;
 
@@ -34,7 +34,7 @@ public class IABoss {
         moveTimer = new Timer(0.8f);
         shootTimer = new Timer(random.nextFloat() % 5 + 1);
 
-        positionBoss();
+        //positionBoss();
     }
 
 
@@ -69,7 +69,7 @@ public class IABoss {
 
 
     void positionBoss() {
-                bossAlien.setPosition( x, y );
+               bossAlien=new BossAlien( x, y );
     }
 
 
@@ -78,17 +78,15 @@ public class IABoss {
             x += speed;
 
             if (x > maxX) {
-                bossAlien.position.y -= 10;
                 x = maxX;
                 speed *= -1;
 
             } else if (x < 0) {
-                bossAlien.position.y -= 10;
                 x = 0;
                 speed *= -1;
             }
 
-            bossAlien.position.x += speed;
+            bossAlien.positionBoss.x += speed;
 
 
         }
@@ -97,7 +95,7 @@ public class IABoss {
     void shoot(Assets assets) {
         if (shootTimer.check()) {
             if (!bossAlien.isAlive()) { //FIXME ya no hay null pointer exception
-                   shoots.add(new AlienShoot(new Vector2(bossAlien.position)));
+                   shoots.add(new AlienShoot(new Vector2(bossAlien.positionBoss)));
 
                 assets.alienSound.play(soundsConfiguration.getVolumeAlienShoot());
 

@@ -7,22 +7,22 @@ import com.mygdx.game.Assets;
 
 public class Alien {
 
-    enum State {
+    public enum State {
         LIVE, DYING, DEAD
     }
 
-    Vector2 position;
+     Vector2 positionAlien;
     float stateTime;
-    TextureRegion frame;
-    State state;
+     TextureRegion frame;
+     State state;
 
     public Alien(int x, int y) {
-        position = new Vector2(x, y);
+        positionAlien = new Vector2(x, y);
         state = State.LIVE;
     }
 
     public void render(SpriteBatch batch) {
-        batch.draw(frame, position.x, position.y);
+        batch.draw(frame, positionAlien.x, positionAlien.y);
     }
 
     void update(float delta, Assets assets) {
