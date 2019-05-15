@@ -2,11 +2,12 @@ package com.mygdx.game;
 
 public class SoundsConfiguration {
 
-    float volumeAlienShoot = 0f;
-    float volumeAlienDie = 0f;
-    float volumeShipShoot = 0f;
-    float volumeShipDamage = 0f;
-    float getVolumeShipMegaShoot=0f;
+    float GLOBAL_SOUND=1f;
+    float volumeAlienShoot = GLOBAL_SOUND;
+    float volumeAlienDie = GLOBAL_SOUND;
+    float volumeShipShoot = GLOBAL_SOUND;
+    float volumeShipDamage = GLOBAL_SOUND;
+    float getVolumeShipMegaShoot=GLOBAL_SOUND;
 
 
     public SoundsConfiguration() {}

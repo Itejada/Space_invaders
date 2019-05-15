@@ -5,9 +5,10 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Slider;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.mygdx.game.Assets;
@@ -22,7 +23,7 @@ public class SoundScreen extends SpaceInvadersScreen {
     public OrthographicCamera camera;
     public Viewport viewport;
     Stage stage;
-    private Image boton,boton2;
+    private Image botonPlus,botonMinus, botonBack;
 
 
     private BitmapFont font = new BitmapFont();
@@ -46,13 +47,27 @@ public class SoundScreen extends SpaceInvadersScreen {
         stage = new Stage(viewport);
         Gdx.input.setInputProcessor(stage);
 
-        boton = new Image(new Texture("livesBoss_0.png"));
-        boton.setPosition((SCENE_WIDTH / 2) - 24, (SCENE_HEIGHT / 2) - 48);
-        boton2 = new Image(new Texture("livesBoss_0.png"));
-        boton2.setPosition(SCENE_WIDTH / 2, (SCENE_HEIGHT / 2) - 48);
+        botonPlus = new Image(new Texture("livesBoss_0.png"));
+        botonPlus.setPosition((SCENE_WIDTH / 2) - 24, (SCENE_HEIGHT / 2) - 48);
+        botonMinus = new Image(new Texture("livesBoss_0.png"));
+        botonMinus.setPosition(SCENE_WIDTH / 2, (SCENE_HEIGHT / 2) - 48);
+        botonMinus = new Image(new Texture("livesBoss_0.png"));
+        botonMinus.setPosition(SCENE_WIDTH / 2, (SCENE_HEIGHT / 2) - 48);
+        botonBack =new Image(new Texture("menu_1.png"));
+        botonBack.setPosition((SCENE_WIDTH / 2)-24,SCENE_HEIGHT/2);
 
-        stage.addActor(boton);
-        stage.addActor(boton2);
+        botonBack.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                setScreen(new MenuScreen(game));
+            }
+        });
+
+
+        stage.addActor(botonBack);
+        stage.addActor(botonPlus);
+        stage.addActor(botonMinus);
 
 
     }
